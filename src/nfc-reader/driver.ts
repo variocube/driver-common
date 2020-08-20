@@ -1,12 +1,12 @@
 import {VcmpClient} from "@variocube/messaging";
 import {NfcReaderMessageTypes} from "./messages";
-import {createDriverClient, DriverOptions, DriverType} from "../common/driver";
+import {createDriverClient, ClientOptions, DriverType} from "../common";
 
 export class NfcReaderDriver {
 
     private readonly client:VcmpClient;
 
-    constructor(options?: DriverOptions) {
+    constructor(options?: ClientOptions) {
         this.client = createDriverClient(DriverType.NfcReader, options);
     }
 

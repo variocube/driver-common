@@ -1,4 +1,4 @@
-import {VcmpClient} from "@variocube/messaging";
+import {ClientOptions, createControllerClient} from "./client";
 
 export enum DriverType {
     Admission = "admission",
@@ -7,26 +7,11 @@ export enum DriverType {
     Locking = "locking",
 }
 
-export interface DriverOptions {
-    controllerHost: string;
-    controllerPort: number;
-    autoStart: boolean;
-}
-
 /**
  * Creates a VCMP client with the correct settings for a driver
  * @param type The type of driver
  * @param options See DriverOptions
  */
-export function createDriverClient(type: DriverType, options?: DriverOptions) {
-    const {
-        controllerHost = "localhost",
-        controllerPort = 9000,
-        autoStart = true,
-    } = options || {};
-
-    return new VcmpClient(`ws://${controllerHost}:${controllerPort}/drivers/${type}`, {
-        customWebSocket: require("ws"),
-        autoStart
-    });
+export function createDriverClient(type: DriverType, options?: ClientOptions) {
+    return createControllerClient(`/drivers/${type}`, options);
 }

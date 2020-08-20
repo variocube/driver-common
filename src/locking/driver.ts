@@ -1,12 +1,12 @@
 import {VcmpClient} from "@variocube/messaging";
 import {CubeLockStatus, LockMessageTypes, OpenLock} from "./messages";
-import {createDriverClient, DriverOptions, DriverType} from "../common/driver";
+import {createDriverClient, ClientOptions, DriverType} from "../common";
 
 export class LockingDriver {
 
     private readonly client: VcmpClient;
 
-    constructor(options?: DriverOptions) {
+    constructor(options?: ClientOptions) {
         this.client = createDriverClient(DriverType.Locking, options);
     }
 
@@ -37,6 +37,3 @@ export class LockingDriver {
         });
     }
 }
-
-const locking = new LockingDriver();
-locking.onOpen = ({id}) => Promise.resolve(console.log("opening lock " + id));

@@ -1,12 +1,12 @@
 import {VcmpClient} from "@variocube/messaging";
 import {CancelPayment, ConfirmPayment, InitiatePayment, PaymentTerminalMessageTypes} from "./messages";
-import {createDriverClient, DriverOptions, DriverType} from "../common/driver";
+import {createDriverClient, ClientOptions, DriverType} from "../common";
 
 export class PaymentTerminalDriver {
 
     private readonly client:VcmpClient;
 
-    constructor(options?: DriverOptions) {
+    constructor(options?: ClientOptions) {
         this.client = createDriverClient(DriverType.PaymentTerminal, options);
     }
 

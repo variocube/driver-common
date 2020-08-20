@@ -15,5 +15,9 @@
   "dependencies": {
     "@variocube/messaging": "https://og-repository.s3-eu-west-1.amazonaws.com/npm/%40variocube/messaging-0.0.96.tgz",
     "ws": "^7.2.0"
-  }
+  },
+  "files": [
+    "cjs/**/*",
+    "src/**/*"
+  ]
 }

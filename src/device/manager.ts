@@ -10,6 +10,14 @@ export class DeviceManagerClient {
         this.client = createControllerClient("/devices", options);
     }
 
+    start() {
+        this.client.start();
+    }
+
+    stop() {
+        this.client.stop();
+    }
+
     /**
      * Notifies the controller that a device was added.
      *

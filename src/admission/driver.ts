@@ -1,13 +1,10 @@
-import {VcmpClient} from "@variocube/messaging";
 import {AdmissionMessageTypes} from "./messages";
-import {createDriverClient, ClientOptions, DriverType} from "../common";
+import {ClientOptions, Driver, DriverType} from "../common";
 
-export class AdmissionDriver {
-
-    private readonly client: VcmpClient;
+export class AdmissionDriver extends Driver {
 
     constructor(options?: ClientOptions) {
-        this.client = createDriverClient(DriverType.Admission, options);
+        super(DriverType.Admission, options);
     }
 
     async sendRequest(code: string) {

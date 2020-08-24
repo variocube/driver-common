@@ -1,13 +1,10 @@
-import {VcmpClient} from "@variocube/messaging";
 import {CancelPayment, ConfirmPayment, InitiatePayment, PaymentTerminalMessageTypes} from "./messages";
-import {createDriverClient, ClientOptions, DriverType} from "../common";
+import {ClientOptions, Driver, DriverType} from "../common";
 
-export class PaymentTerminalDriver {
-
-    private readonly client:VcmpClient;
+export class PaymentTerminalDriver extends Driver {
 
     constructor(options?: ClientOptions) {
-        this.client = createDriverClient(DriverType.PaymentTerminal, options);
+        super(DriverType.PaymentTerminal, options);
     }
 
     set onInitiatePayment(handler: (message: InitiatePayment) => Promise<void>) {

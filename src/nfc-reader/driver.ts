@@ -1,13 +1,10 @@
-import {VcmpClient} from "@variocube/messaging";
 import {NfcReaderMessageTypes} from "./messages";
-import {createDriverClient, ClientOptions, DriverType} from "../common";
+import {ClientOptions, Driver, DriverType} from "../common";
 
-export class NfcReaderDriver {
-
-    private readonly client:VcmpClient;
+export class NfcReaderDriver extends Driver {
 
     constructor(options?: ClientOptions) {
-        this.client = createDriverClient(DriverType.NfcReader, options);
+        super(DriverType.NfcReader, options);
     }
 
     async sendCardPresented(uid: string, lock?: string) {

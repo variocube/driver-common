@@ -16,11 +16,11 @@ Logger.setLogLevel(LogLevel.silly);
 
 ### Drivers
 
-All drivers work the same. Here are some examples for the locking driver:
+All drivers work the same way. Here are some examples for the locking driver:
 
 ```typescript
 const locking = new LockingDriver();
-locking.onOpen = async ({id}) => {
+locking.onOpenLock = async ({id}) => {
     console.log("Opening lock", id);
     // Here you actually open the lock
 }
@@ -29,5 +29,5 @@ locking.onOpen = async ({id}) => {
 await locking.sendLockAdded("demoLock1", CubeLockStatus.Closed);
 
 // Notify that lock status changed
-await lock.sendLockStatusChanged("demoLock1", CubeLockStatus.Open);
+await locking.sendLockStatusChanged("demoLock1", CubeLockStatus.Open);
 ```

@@ -1,5 +1,4 @@
-import {ClientOptions, createControllerClient} from "./client";
-import {VcmpClient} from "@variocube/messaging";
+import {ClientOptions, ControllerClient} from "./client";
 
 export enum DriverType {
     Admission = "admission",
@@ -8,28 +7,8 @@ export enum DriverType {
     Locking = "locking",
 }
 
-/**
- * Creates a VCMP client with the correct settings for a driver
- * @param type The type of driver
- * @param options See DriverOptions
- */
-export function createDriverClient(type: DriverType, options?: ClientOptions) {
-    return createControllerClient(`/drivers/${type}`, options);
-}
-
-export class Driver {
-
-    protected readonly client: VcmpClient;
-
+export class Driver extends ControllerClient {
     constructor(type: DriverType, options?: ClientOptions) {
-        this.client = createDriverClient(type, options);
-    }
-
-    start() {
-        this.client.start();
-    }
-
-    stop() {
-        this.client.stop();
+        super(`/drivers/${type}`, options);
     }
 }

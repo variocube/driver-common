@@ -1,21 +1,10 @@
-import {VcmpClient} from "@variocube/messaging";
 import {DeviceAdded, DeviceMessageTypes, DeviceRemoved, DeviceType} from "./messages";
-import {ClientOptions, createControllerClient} from "../common";
+import {ClientOptions, ControllerClient} from "../common";
 
-export class DeviceManagerClient {
-
-    protected readonly client: VcmpClient;
+export class DeviceManagerClient extends ControllerClient {
 
     constructor(options?: ClientOptions) {
-        this.client = createControllerClient("/devices", options);
-    }
-
-    start() {
-        this.client.start();
-    }
-
-    stop() {
-        this.client.stop();
+        super("/devices", options);
     }
 
     /**

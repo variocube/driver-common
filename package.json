@@ -8,12 +8,16 @@
   },
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/variocube/driver-common.git"
+  },
   "devDependencies": {
     "@types/node": "^14.6.0",
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@variocube/messaging": "https://og-repository.s3-eu-west-1.amazonaws.com/npm/%40variocube/messaging-0.0.96.tgz",
+    "@variocube/messaging": "1.0.0-alpha1",
     "ws": "^7.2.0"
   },
   "files": [

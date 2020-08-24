@@ -7,7 +7,7 @@ export class LockingDriver extends Driver {
         super(DriverType.Locking, options);
     }
 
-    set onOpen(handler: (message: OpenLock) => Promise<void>) {
+    set onOpenLock(handler: (message: OpenLock) => Promise<void>) {
         this.client.on(LockMessageTypes.OpenLock, handler);
     }
 

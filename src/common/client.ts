@@ -1,4 +1,5 @@
-import {CloseHandler, OpenHandler, VcmpClient} from "@variocube/messaging";
+import {CloseHandler, OpenHandler, VcmpClient} from "@variocube/vcmp";
+import * as NodeWebSocket from "ws";
 
 export interface ClientOptions {
     controllerHost: string;
@@ -18,7 +19,7 @@ export class ControllerClient {
         } = options || {};
 
         this.client = new VcmpClient(`ws://${controllerHost}:${controllerPort}${path}`, {
-            customWebSocket: require("ws"),
+            customWebSocket: WebSocket || NodeWebSocket,
             autoStart
         });
     }

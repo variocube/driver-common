@@ -6,10 +6,10 @@
  * Enum of lock message types
  */
 export enum LockMessageTypes {
-    LockAdded = "lock:LockAdded",
-    LockRemoved = "lock:LockRemoved",
-    LockStatusChanged = "lock:LockStatusChanged",
-    OpenLock = "lock:OpenLock"
+    LockAdded = "locking:LockAdded",
+    LockRemoved = "locking:LockRemoved",
+    LockStatusChanged = "locking:LockStatusChanged",
+    OpenLock = "locking:OpenLock"
 }
 
 /**

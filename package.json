@@ -1,6 +1,6 @@
 {
   "name": "@variocube/driver-common",
-  "version": "1.0.0-alpha10",
+  "version": "1.0.0-alpha11",
   "description": "Common base for Variocube drivers",
   "main": "cjs/index.js",
   "scripts": {

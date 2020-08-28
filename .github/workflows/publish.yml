@@ -15,7 +15,7 @@ jobs:
           scope: '@variocube'
       - run: npm ci
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GPR_AUTH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - run: npm run build
       - run: npm publish
         env:

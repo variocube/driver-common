@@ -13,6 +13,4 @@ jobs:
         registry-url: https://npm.pkg.github.com/
         scope: '@variocube'
     - run: npm ci
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.GPR_AUTH_TOKEN }}
     - run: npm run build

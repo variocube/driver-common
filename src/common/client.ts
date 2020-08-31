@@ -19,7 +19,7 @@ export class ControllerClient {
         } = options || {};
 
         this.client = new VcmpClient(`ws://${controllerHost}:${controllerPort}${path}`, {
-            customWebSocket: WebSocket || NodeWebSocket,
+            customWebSocket: detectWebSocket(),
             autoStart
         });
     }
@@ -39,4 +39,11 @@ export class ControllerClient {
     stop() {
         this.client.stop();
     }
+}
+
+function detectWebSocket(): typeof WebSocket {
+    if (typeof WebSocket !== "undefined") {
+        return WebSocket;
+    }
+    return NodeWebSocket as typeof WebSocket;
 }

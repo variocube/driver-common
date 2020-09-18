@@ -192,4 +192,4 @@ fabric.properties
 
 # Build outputs
 cjs/
-
+esm/

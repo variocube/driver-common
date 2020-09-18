@@ -24,6 +24,10 @@ export class ControllerClient {
         });
     }
 
+    get connected() {
+        return this.client.connected;
+    }
+
     set onOpen(handler: OpenHandler) {
         this.client.onOpen = handler;
     }

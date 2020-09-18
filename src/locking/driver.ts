@@ -33,4 +33,20 @@ export class LockingDriver extends Driver {
             status,
         });
     }
+
+    async sendLockOpenRequest(lockId: string, accessKey: string) {
+        await this.client.send({
+            "@type": LockMessageTypes.LockOpenRequest,
+            id: lockId,
+            accessKey,
+        });
+    }
+
+    async sendLockCloseRequest(lockId: string, accessKey: string) {
+        await this.client.send({
+            "@type": LockMessageTypes.LockCloseRequest,
+            id: lockId,
+            accessKey,
+        });
+    }
 }

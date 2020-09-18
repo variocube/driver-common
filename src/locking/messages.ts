@@ -9,7 +9,9 @@ export enum LockMessageTypes {
     LockAdded = "locking:LockAdded",
     LockRemoved = "locking:LockRemoved",
     LockStatusChanged = "locking:LockStatusChanged",
-    OpenLock = "locking:OpenLock"
+    OpenLock = "locking:OpenLock",
+    LockOpenRequest = "locking:LockOpenRequest",
+    LockCloseRequest = "locking:LockCloseRequest"
 }
 
 /**
@@ -31,7 +33,7 @@ export enum CubeLockStatus {
 
 
 /**
- * Issued by the lock service when a lock was added to the system.
+ * Issued by a locking driver when a lock was added to the system.
  */
 export interface LockAdded {
     "@type": LockMessageTypes.LockAdded;
@@ -44,7 +46,7 @@ export interface LockAdded {
 }
 
 /**
- * Issued by the lock service when a lock was removed from the system.
+ * Issued by a locking driver when a lock was removed from the system.
  */
 export interface LockRemoved {
     "@type": LockMessageTypes.LockRemoved;
@@ -54,7 +56,7 @@ export interface LockRemoved {
 }
 
 /**
- * Issued by the lock service when a lock status changed.
+ * Issued by a locking driver when a lock status changed.
  */
 export interface LockStatusChanged {
     "@type": LockMessageTypes.LockStatusChanged;
@@ -67,7 +69,35 @@ export interface LockStatusChanged {
 }
 
 /**
- * Sent to lock service to open a lock
+ * Issued by a locking driver when opening a lock is requested using an access key.
+ * This is only applicable for locks that support reading an access key (RFID data carrier, etc.)
+ */
+export interface LockOpenRequest {
+    "@type": LockMessageTypes.LockOpenRequest;
+
+    /** The id of the lock. Must be unique within a cube. */
+    id: string;
+
+    /** The access key. */
+    accessKey: string;
+}
+
+/**
+ * Issued by a locking driver when closing a lock is requested using an access key.
+ * This is only applicable for locks that support reading an access key (RFID data carrier, etc.)
+ */
+export interface LockCloseRequest {
+    "@type": LockMessageTypes.LockCloseRequest;
+
+    /** The id of the lock. Must be unique within a cube. */
+    id: string;
+
+    /** The access key. */
+    accessKey: string;
+}
+
+/**
+ * Sent to a lock lock to open a lock
  */
 export interface OpenLock {
     "@type": LockMessageTypes.OpenLock;
@@ -80,4 +110,6 @@ export type LockMessage =
     LockAdded
     | LockRemoved
     | LockStatusChanged
-    | OpenLock;
+    | OpenLock
+    | LockOpenRequest
+    | LockCloseRequest;

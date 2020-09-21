@@ -1,6 +1,6 @@
 {
   "name": "@variocube/driver-common",
-  "version": "1.0.0-alpha20",
+  "version": "1.0.0",
   "description": "Common base for Variocube drivers",
   "main": "cjs/index.js",
   "module": "esm/index.js",
@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc && tsc -m esnext --outDir ./esm -d"
   },
-  "author": "",
+  "author": "Variocube",
   "license": "ISC",
   "repository": {
     "type": "git",

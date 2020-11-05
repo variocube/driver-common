@@ -6,3 +6,4 @@ export * from "./payment-terminal";
 export * from "./common";
 export * from "./sleep";
 export * from "./timeout";
+export * from "./barcode-reader";

@@ -6,6 +6,7 @@ export enum DriverType {
     PaymentTerminal = "payment-terminal",
     NfcReader = "nfc-reader",
     Locking = "locking",
+    BarcodeReader = "barcode-reader",
 }
 
 export class Driver extends ControllerClient {

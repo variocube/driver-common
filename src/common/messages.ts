@@ -23,6 +23,12 @@ export enum DeviceType {
 
     /** Locking device */
     Locking = "Locking",
+
+    /** Admission device */
+    Admission = "Admission",
+
+    /** Barcode reader */
+    BarcodeReader = "BarcodeReader",
 }
 
 

@@ -7,15 +7,14 @@ export class NfcReaderDriver extends Driver {
         super(DriverType.NfcReader, options);
     }
 
-    async sendCardPresented(uid: string, lock?: string) {
+    async sendCardPresented(uid: string) {
         await this.client.send({
             "@type": NfcReaderMessageTypes.CardPresented,
-            uid,
-            lock
+            uid
         });
     }
 
-    async sendCardRemoved(lockId: string) {
+    async sendCardRemoved() {
         await this.client.send({
             "@type": NfcReaderMessageTypes.CardRemoved
         });

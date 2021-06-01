@@ -1,6 +1,6 @@
 {
   "name": "@variocube/driver-common",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Common base for Variocube drivers",
   "main": "cjs/index.js",
   "module": "esm/index.js",
@@ -15,13 +15,13 @@
     "url": "git+https://github.com/variocube/driver-common.git"
   },
   "devDependencies": {
-    "@types/node": "^14.6.4",
-    "@types/ws": "^7.2.6",
-    "typescript": "^4.0.2"
+    "@types/node": "^15.6.1",
+    "@types/ws": "^7.4.4",
+    "typescript": "^4.3.2"
   },
   "dependencies": {
-    "@variocube/vcmp": "1.0.0",
-    "ws": "^7.3.1"
+    "@variocube/vcmp": "1.0.4",
+    "ws": "^7.4.6"
   },
   "files": [
     "cjs/**/*",

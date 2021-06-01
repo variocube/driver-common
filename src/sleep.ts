@@ -3,5 +3,5 @@
  * @param timeoutMs
  */
 export function sleep(timeoutMs: number) {
-    return new Promise(((resolve) => setTimeout(() => resolve(), timeoutMs)));
+    return new Promise<void>(((resolve) => setTimeout(() => resolve(), timeoutMs)));
 }

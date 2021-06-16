@@ -1,3 +1,4 @@
+import { blackBright, blue, blueBright, red, yellow, yellowBright } from "chalk";
 
 export enum LogLevel {
     error,
@@ -21,35 +22,35 @@ export class Logger {
 
     silly(...args: any[]) {
         if (this.isSillyEnabled()) {
-            console.debug(this.getPrefix("SILLY"), ...args);
+            console.debug(this.getPrefix(blackBright("SILLY  ")), ...args);
         }
     }
 
     debug(...args: any[]) {
         if (this.isDebugEnabled()) {
-            console.debug(this.getPrefix("DEBUG"), ...args);
+            console.debug(this.getPrefix("DEBUG  "), ...args);
         }
     }
 
     verbose(...args: any[]) {
         if (this.isVerboseEnabled()) {
-            console.debug(this.getPrefix("VERBOSE"), ...args);
+            console.debug(this.getPrefix(blue("VERBOSE")), ...args);
         }
     }
 
     info(...args: any[]) {
         if (this.isInfoEnabled()) {
-            console.info(this.getPrefix("INFO"), ...args);
+            console.info(this.getPrefix(blueBright("INFO   ")), ...args);
         }
     }
     warn(...args: any[]) {
         if (this.isWarnEnabled()) {
-            console.warn(this.getPrefix("WARN"), ...args);
+            console.warn(this.getPrefix(yellowBright("WARN   ")), ...args);
         }
     }
     error(...args: any[]) {
         if (this.isErrorEnabled()) {
-            console.error(this.getPrefix("ERROR"), ...args);
+            console.error(this.getPrefix(red("ERROR  ")), ...args);
         }
     }
 
@@ -77,7 +78,12 @@ export class Logger {
         return Logger.logLevel >= LogLevel.error;
     }
 
+    sub(name: string) {
+        return new Logger(this.name ? [this.name, name].join(" > ") : name);
+    }
+
     private getPrefix(logLevelStr: string) {
-        return `[${logLevelStr}] ${this.name || ""}:`
+        return `${logLevelStr} ${this.name || ""}: `
     }
 }
+

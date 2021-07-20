@@ -62,11 +62,14 @@ export interface PaymentApproved {
     "@type": PaymentTerminalMessageTypes.PaymentApproved;
 
     /**
-     * Text that can be printed on a receipt. Among other text, this will
-     * typically include a transaction id that can be used to match up payments
-     * in different systems.
+     * Receipt text for the customer.
      */
     receiptText: string;
+
+    /**
+     * Receipt text for the merchant.
+     */
+    merchantReceiptText?: string;
 }
 
 /**

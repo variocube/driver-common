@@ -18,6 +18,12 @@ export interface AdmissionRequest {
     /** The code which as been entered or provided by the user. */
     code: string;
 
+    /** A specific box number which was configured for the admission keypad. */
+    boxNumber?: string;
+
+    /** A specific box type which was configured for the admission keypad. */
+    boxType?: string;
+
 }
 
 export type AdmissionRequestMessages = AdmissionRequest;

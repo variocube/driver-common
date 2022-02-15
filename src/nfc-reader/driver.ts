@@ -1,4 +1,4 @@
-import {NfcReaderMessageTypes} from "./messages";
+import {CardPresented, CardRemoved, NfcReaderMessageTypes} from "./messages";
 import {ClientOptions, Driver, DriverType} from "../common";
 
 export class NfcReaderDriver extends Driver {
@@ -7,16 +7,18 @@ export class NfcReaderDriver extends Driver {
         super(DriverType.NfcReader, options);
     }
 
-    async sendCardPresented(uid: string) {
-        await this.client.send({
+    async sendCardPresented(uid: string, unit: string) {
+        await this.client.send<CardPresented>({
             "@type": NfcReaderMessageTypes.CardPresented,
-            uid
+            uid,
+            unit,
         });
     }
 
-    async sendCardRemoved() {
-        await this.client.send({
-            "@type": NfcReaderMessageTypes.CardRemoved
+    async sendCardRemoved(unit: string) {
+        await this.client.send<CardRemoved>({
+            "@type": NfcReaderMessageTypes.CardRemoved,
+            unit,
         });
     }
 

@@ -1,4 +1,4 @@
-import {BarcodeReaderMessageTypes} from "./messages";
+import {BarcodeReaderMessageTypes, BarcodeScanned} from "./messages";
 import {ClientOptions, Driver, DriverType} from "../common";
 
 export class BarcodeReaderDriver extends Driver {
@@ -7,10 +7,11 @@ export class BarcodeReaderDriver extends Driver {
         super(DriverType.BarcodeReader, options);
     }
 
-    async sendBarcodeScanned(code: string) {
-        await this.client.send({
+    async sendBarcodeScanned(code: string, unit: string) {
+        await this.client.send<BarcodeScanned>({
             "@type": BarcodeReaderMessageTypes.BarcodeScanned,
-            code
+            code,
+            unit,
         });
     }
 

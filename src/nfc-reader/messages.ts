@@ -15,10 +15,16 @@ export interface CardPresented {
 
     /** The unique card id as a base64-encoded string. */
     uid: string;
+
+    /** The unit at which the card was presented. */
+    unit: string;
 }
 
 export interface CardRemoved {
     "@type": NfcReaderMessageTypes.CardRemoved;
+
+    /** The unit at which the card was removed. */
+    unit: string;
 }
 
 export type NfcReaderMessage =

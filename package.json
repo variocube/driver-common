@@ -1,6 +1,6 @@
 {
   "name": "@variocube/driver-common",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "Common base for Variocube drivers",
   "main": "cjs/index.js",
   "module": "esm/index.js",

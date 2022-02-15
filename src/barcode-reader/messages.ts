@@ -14,6 +14,9 @@ export interface BarcodeScanned {
 
     /** The barcode data as a base64-encoded string. */
     code: string;
+
+    /** The unit at which the barcode was scanned. */
+    unit: string;
 }
 
 export type BarcodeReaderMessage =

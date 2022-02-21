@@ -87,3 +87,34 @@ export class Logger {
     }
 }
 
+/**
+ * Returns an appropriate log level for a given count of verbosity increments
+ * as typically specified on the command line as `-v`, `-vv` or `-vvv`
+ * @param verbosityIncrements The number of verbosity increments
+ */
+export function getLogLevel(verbosityIncrements: number) {
+    switch (verbosityIncrements) {
+        case 0:
+            return LogLevel.info;
+        case 1:
+            return LogLevel.verbose;
+        case 2:
+            return LogLevel.debug;
+        default:
+            return LogLevel.silly;
+    }
+}
+
+/**
+ * Parses a log level string into the corresponding enum value
+ * @param logLevel The log level name
+ */
+export function parseLogLevel(logLevel?: string) {
+    if (!logLevel) {
+        return undefined;
+    }
+    if (!Object.keys(LogLevel).includes(logLevel)) {
+        throw new Error("Invalid log level: " + logLevel);
+    }
+    return LogLevel[logLevel as keyof typeof LogLevel];
+}

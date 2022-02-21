@@ -1,6 +1,7 @@
 /**
  * This module specifies messages issued by a driver to inform
- * about addition and removal of devices.
+ * about addition and removal of devices as well a message to
+ * restart a device.
  */
 
 /**
@@ -9,6 +10,7 @@
 export enum DeviceMessageTypes {
     DeviceAdded = "device:DeviceAdded",
     DeviceRemoved = "device:DeviceRemoved",
+    RestartDevice = "device:Restart",
 }
 
 /**
@@ -29,6 +31,9 @@ export enum DeviceType {
 
     /** Barcode reader */
     BarcodeReader = "BarcodeReader",
+
+    /** Kiosk */
+    Kiosk = "Kiosk",
 }
 
 
@@ -68,6 +73,17 @@ export interface DeviceRemoved {
     id: string;
 }
 
+/**
+ * Sent to the driver to request the restart of a device.
+ */
+export interface RestartDevice {
+    "@type": DeviceMessageTypes.RestartDevice;
+
+    /** The id of the device to be restarted. */
+    id: string;
+}
+
 export type DeviceMessage =
     DeviceAdded
-    | DeviceRemoved;
+    | DeviceRemoved
+    | RestartDevice;

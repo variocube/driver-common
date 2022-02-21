@@ -1,5 +1,6 @@
 import {ClientOptions, ControllerClient} from "./client";
-import {DeviceAdded, DeviceMessageTypes, DeviceRemoved, DeviceType} from "./messages";
+import {DeviceAdded, DeviceMessageTypes, DeviceRemoved, DeviceType, RestartDevice} from "./messages";
+import {VcmpHandler} from "@variocube/vcmp";
 
 export enum DriverType {
     Admission = "admission",
@@ -7,11 +8,17 @@ export enum DriverType {
     NfcReader = "nfc-reader",
     Locking = "locking",
     BarcodeReader = "barcode-reader",
+    Kiosk = "kiosk",
 }
 
 export class Driver extends ControllerClient {
+
+    onRestartDevice?: VcmpHandler<RestartDevice>;
+
     constructor(type: DriverType, options?: ClientOptions) {
         super(`/drivers/${type}`, options);
+
+        this.client.on<RestartDevice>(DeviceMessageTypes.RestartDevice, rd => this.onRestartDevice && this.onRestartDevice(rd));
     }
 
     /**

@@ -1,4 +1,4 @@
-import { blackBright, blue, blueBright, red, yellow, yellowBright } from "chalk";
+import chalk from "chalk";
 
 export enum LogLevel {
     error,
@@ -22,7 +22,7 @@ export class Logger {
 
     silly(...args: any[]) {
         if (this.isSillyEnabled()) {
-            console.debug(this.getPrefix(blackBright("SILLY  ")), ...args);
+            console.debug(this.getPrefix(chalk.blackBright("SILLY  ")), ...args);
         }
     }
 
@@ -34,23 +34,23 @@ export class Logger {
 
     verbose(...args: any[]) {
         if (this.isVerboseEnabled()) {
-            console.debug(this.getPrefix(blue("VERBOSE")), ...args);
+            console.debug(this.getPrefix(chalk.blue("VERBOSE")), ...args);
         }
     }
 
     info(...args: any[]) {
         if (this.isInfoEnabled()) {
-            console.info(this.getPrefix(blueBright("INFO   ")), ...args);
+            console.info(this.getPrefix(chalk.blueBright("INFO   ")), ...args);
         }
     }
     warn(...args: any[]) {
         if (this.isWarnEnabled()) {
-            console.warn(this.getPrefix(yellowBright("WARN   ")), ...args);
+            console.warn(this.getPrefix(chalk.yellowBright("WARN   ")), ...args);
         }
     }
     error(...args: any[]) {
         if (this.isErrorEnabled()) {
-            console.error(this.getPrefix(red("ERROR  ")), ...args);
+            console.error(this.getPrefix(chalk.red("ERROR  ")), ...args);
         }
     }
 

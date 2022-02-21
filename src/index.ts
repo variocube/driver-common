@@ -8,3 +8,4 @@ export * from "./sleep";
 export * from "./timeout";
 export * from "./barcode-reader";
 export * from "./defined";
+export * from "./kiosk";

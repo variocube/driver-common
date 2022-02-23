@@ -15,6 +15,7 @@ export interface TakeScreenshot {
 
 export interface Screenshot {
     "@type": KioskMessageTypes.Screenshot;
+    dataUri: string;
 }
 
 export type KioskMessage = TakeScreenshot | Screenshot;

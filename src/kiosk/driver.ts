@@ -10,10 +10,10 @@ export class KioskDriver extends Driver {
         this.client.on(KioskMessageTypes.TakeScreenshot, () => this.onTakeScreenshot && this.onTakeScreenshot());
     }
 
-    async sendScreenshot() {
+    async sendScreenshot(dataUri: string) {
         await this.client.send<Screenshot>({
             "@type": KioskMessageTypes.Screenshot,
-
+            dataUri,
         });
     }
 

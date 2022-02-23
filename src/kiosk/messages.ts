@@ -11,11 +11,13 @@ export enum KioskMessageTypes {
 
 export interface TakeScreenshot {
     "@type": KioskMessageTypes.TakeScreenshot;
+    kioskId: string;
 }
 
 export interface Screenshot {
     "@type": KioskMessageTypes.Screenshot;
     dataUri: string;
+    kioskId: string;
 }
 
 export type KioskMessage = TakeScreenshot | Screenshot;

@@ -1,13 +1,13 @@
 import {ClientOptions, Driver, DriverType} from "../common";
-import {KioskMessageTypes, Screenshot} from "./messages";
+import {KioskMessageTypes, Screenshot, TakeScreenshot} from "./messages";
 
 export class KioskDriver extends Driver {
 
-    onTakeScreenshot?: () => any;
+    onTakeScreenshot?: (takeScreenshot: TakeScreenshot) => any;
 
     constructor(options?: ClientOptions) {
         super(DriverType.Kiosk, options);
-        this.client.on(KioskMessageTypes.TakeScreenshot, () => this.onTakeScreenshot && this.onTakeScreenshot());
+        this.client.on<TakeScreenshot>(KioskMessageTypes.TakeScreenshot, (m) => this.onTakeScreenshot && this.onTakeScreenshot(m));
     }
 
     async sendScreenshot(dataUri: string, kioskId: string) {

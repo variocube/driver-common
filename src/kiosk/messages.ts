@@ -12,6 +12,7 @@ export enum KioskMessageTypes {
 export interface TakeScreenshot {
     "@type": KioskMessageTypes.TakeScreenshot;
     kioskId: string;
+    highQuality: boolean;
 }
 
 export interface Screenshot {

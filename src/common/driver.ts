@@ -3,7 +3,7 @@ import {DeviceAdded, DeviceMessageTypes, DeviceRemoved, DeviceType, RestartDevic
 import {VcmpHandler} from "@variocube/vcmp";
 
 export enum DriverType {
-    Admission = "admission",
+    Keypad = "keypad",
     PaymentTerminal = "payment-terminal",
     NfcReader = "nfc-reader",
     Locking = "locking",

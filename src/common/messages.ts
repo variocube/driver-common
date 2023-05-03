@@ -34,6 +34,9 @@ export enum DeviceType {
 
     /** Kiosk */
     Kiosk = "Kiosk",
+
+    /** Keypad */
+    Keypad = "Keypad",
 }
 
 

@@ -32,6 +32,9 @@ export interface AccessCode {
 
     /** The access code that was entered with the keypad. */
     code: string;
+
+    /** The unit at which the access code was entered. */
+    unit: string;
 }
 
-export type AdmissionRequestMessages = AdmissionRequest | AccessCode;
+export type KeypadMessages = AdmissionRequest | AccessCode;

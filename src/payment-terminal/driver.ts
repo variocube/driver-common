@@ -26,10 +26,11 @@ export class PaymentTerminalDriver extends Driver {
         });
     }
 
-    async sendPaymentApproved(receiptText: string) {
+    async sendPaymentApproved(receiptText: string, merchantReceiptText?: string) {
         await this.client.send({
             "@type": PaymentTerminalMessageTypes.PaymentApproved,
-            receiptText
+            receiptText,
+            merchantReceiptText
         });
     }
 

@@ -10,11 +10,26 @@
 
 export enum KeypadMessageTypes {
     AdmissionRequest = "admission:AdmissionRequest",
+    AppAdmissionRequest = "admission:AppAdmissionRequest",
     AccessCode = "keypad:AccessCode",
 }
 
 export interface AdmissionRequest {
     "@type": KeypadMessageTypes.AdmissionRequest;
+
+    /** The code which as been entered or provided by the user. */
+    code: string;
+
+    /** A specific box number which was configured for the admission keypad. */
+    boxNumber?: string;
+
+    /** A specific box type which was configured for the admission keypad. */
+    boxType?: string;
+
+}
+
+export interface AppAdmissionRequest {
+    "@type": KeypadMessageTypes.AppAdmissionRequest;
 
     /** The code which as been entered or provided by the user. */
     code: string;
@@ -37,4 +52,4 @@ export interface AccessCode {
     unit: string;
 }
 
-export type KeypadMessages = AdmissionRequest | AccessCode;
+export type KeypadMessages = AdmissionRequest | AppAdmissionRequest | AccessCode;

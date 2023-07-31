@@ -44,7 +44,7 @@ export interface AppAdmissionRequest {
 }
 
 export interface AppAdmissionRequestGranted {
-    "@types": KeypadMessageTypes.AppAdmissionRequestGranted,
+    "@type": KeypadMessageTypes.AppAdmissionRequestGranted,
 
     /** The code which as been entered or provided by the user. */
     code: string;

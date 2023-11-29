@@ -18,7 +18,7 @@ export class Driver extends ControllerClient {
     constructor(type: DriverType, options?: ClientOptions) {
         super(`/drivers/${type}`, options);
 
-        this.client.on<RestartDevice>(DeviceMessageTypes.RestartDevice, rd => this.onRestartDevice && this.onRestartDevice(rd));
+        this.client.on<RestartDevice>(DeviceMessageTypes.RestartDevice, (rd, session) => this.onRestartDevice && this.onRestartDevice(rd, session));
     }
 
     /**

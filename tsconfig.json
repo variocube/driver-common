@@ -6,6 +6,7 @@
     "target": "es2017",
     "outDir": "./cjs",
     "declaration": true,
+    "esModuleInterop": true,
     "strict": true
   },
   "exclude": [

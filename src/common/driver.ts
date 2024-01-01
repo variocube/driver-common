@@ -28,15 +28,17 @@ export class Driver extends ControllerClient {
      * @param types The device's types
      * @param vendor The vendor of the device
      * @param model The device model
+     * @param model The device serialNumber
      * @param info Additional device info
      */
-    async sendDeviceAdded(id: string, types: DeviceType[], vendor: string, model: string, info: any) {
+    async sendDeviceAdded(id: string, types: DeviceType[], vendor: string, model: string, serialNumber: string, info: any) {
         await this.client.send<DeviceAdded>({
             "@type": DeviceMessageTypes.DeviceAdded,
             id,
             types,
             vendor,
             model,
+            serialNumber,
             info
         });
     }

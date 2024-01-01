@@ -62,6 +62,9 @@ export interface DeviceAdded {
     /** The model of the device. */
     model: string;
 
+    /** The serialNumber of the device. */
+    serialNumber: string;
+
     /** Additional information specific to the device */
     info: any;
 }

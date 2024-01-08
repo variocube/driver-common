@@ -1,5 +1,5 @@
 import {ClientOptions, ControllerClient} from "./client";
-import {DeviceAdded, DeviceMessageTypes, DeviceRemoved, DeviceType, RestartDevice} from "./messages";
+import {Device, DeviceAdded, DeviceMessageTypes, DeviceRemoved, RestartDevice} from "./messages";
 import {VcmpHandler} from "@variocube/vcmp";
 
 export enum DriverType {
@@ -24,22 +24,12 @@ export class Driver extends ControllerClient {
     /**
      * Notifies the controller that a device was added.
      *
-     * @param id The universally unique id of the device.
-     * @param types The device's types
-     * @param vendor The vendor of the device
-     * @param model The device model
-     * @param model The device serialNumber
-     * @param info Additional device info
+     * @param device The device that was added.
      */
-    async sendDeviceAdded(id: string, types: DeviceType[], vendor: string, model: string, serialNumber: string, info: any) {
+    async sendDeviceAdded(device: Device) {
         await this.client.send<DeviceAdded>({
             "@type": DeviceMessageTypes.DeviceAdded,
-            id,
-            types,
-            vendor,
-            model,
-            serialNumber,
-            info
+            ...device
         });
     }
 

@@ -39,15 +39,10 @@ export enum DeviceType {
     Keypad = "Keypad",
 }
 
-
-/**
- * Issued by the driver when a device was added to the system.
- */
-export interface DeviceAdded {
-    "@type": DeviceMessageTypes.DeviceAdded;
-
+export interface Device {
     /**
-     * The universally unique id of the device.
+     * The unique id of the device.
+     * Preferably, the id is universally unique, but it must at least be unique within the devices of a cube.
      * Good candidates are universally unique hardware IDs like a MAC address, or
      * a unique combination of vendor/model and serial number.
      */
@@ -62,8 +57,18 @@ export interface DeviceAdded {
     /** The model of the device. */
     model: string;
 
+    /** The serialNumber of the device. */
+    serialNumber?: string;
+
     /** Additional information specific to the device */
     info: any;
+}
+
+/**
+ * Issued by the driver when a device was added to the system.
+ */
+export interface DeviceAdded extends Device {
+    "@type": DeviceMessageTypes.DeviceAdded;
 }
 
 /**

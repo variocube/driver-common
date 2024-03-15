@@ -1,5 +1,5 @@
 import {CloseHandler, OpenHandler, VcmpClient} from "@variocube/vcmp";
-import * as NodeWebSocket from "ws";
+import NodeWebSocket from "ws";
 
 export interface ClientOptions {
     controllerHost?: string;

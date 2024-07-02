@@ -70,6 +70,11 @@ export interface PaymentApproved {
      * Receipt text for the merchant.
      */
     merchantReceiptText?: string;
+
+    /**
+     * Transaction Url of the payment
+     */
+    merchantTransactionUrl?: string;
 }
 
 /**

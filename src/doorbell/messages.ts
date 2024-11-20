@@ -33,7 +33,7 @@ export interface DoorBellRemoved {
 }
 
 /**
- * Sent to a lock lock to open a lock
+ * Sent to a door bell controller to ring to the door bell with serial number @id
  */
 export interface DoorBellRing {
     "@type": DoorBellMessageTypes.DoorBellRing;

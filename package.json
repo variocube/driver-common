@@ -5,7 +5,8 @@
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
   "scripts": {
-    "build": "tsc && tsc -m esnext --outDir ./esm -d"
+    "build": "tsc && tsc -m esnext --outDir ./esm -d",
+    "local-build": "npm run build && npm pack variocube-driver-common-2.0.6.tgz"
   },
   "author": "Variocube",
   "license": "ISC",

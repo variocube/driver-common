@@ -8,7 +8,7 @@
 export enum DoorBellMessageTypes {
     DoorBellAdded = "doorbell:DoorBellAdded",
     DoorBellRemoved = "doorbell:DoorBellRemoved",
-    DoorBellRing = "locking:Ring"
+    DoorBellRing = "doorbell:Ring"
 }
 
 /**

@@ -11,6 +11,17 @@ export class DoorBellDriver extends Driver {
         this.client.on(DoorBellMessageTypes.DoorBellRing, handler);
     }
 
+    /**
+     * For Requesting ring to a door
+     * @param serialNr 
+     */
+    async sendDoorBellRing(serialNr: string) {
+        await this.client.send<DoorBellRing>({
+            "@type": DoorBellMessageTypes.DoorBellRing,
+             id: serialNr, 
+        });
+    }
+
     async sendDoorBellAdded(doorBellId: string) {
         await this.client.send({
             "@type": DoorBellMessageTypes.DoorBellAdded,

@@ -37,6 +37,9 @@ export enum DeviceType {
 
     /** Keypad */
     Keypad = "Keypad",
+
+    /** DoorBell */
+    DoorBell = "DoorBell",
 }
 
 export interface Device {

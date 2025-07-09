@@ -8,7 +8,7 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: 18
-        registry-url: https://npm.pkg.github.com/
+        registry-url: https://registry.npmjs.org
         scope: '@variocube'
     - run: npm ci
       env:
@@ -19,4 +19,4 @@ jobs:
         npm version ${GITHUB_REF#refs/*/} --no-git-tag-version
         npm publish
       env:
-        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

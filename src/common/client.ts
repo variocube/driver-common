@@ -1,10 +1,11 @@
-import {CloseHandler, OpenHandler, VcmpClient} from "@variocube/vcmp";
+import {CloseHandler, ConsoleLike, OpenHandler, VcmpClient} from "@variocube/vcmp";
 import NodeWebSocket from "ws";
 
 export interface ClientOptions {
     controllerHost?: string;
     controllerPort?: number;
     autoStart?: boolean;
+    debug?: ConsoleLike;
 }
 
 export class ControllerClient {
@@ -16,11 +17,13 @@ export class ControllerClient {
             controllerHost = "localhost",
             controllerPort = 9000,
             autoStart = true,
+            debug,
         } = options || {};
 
         this.client = new VcmpClient(`ws://${controllerHost}:${controllerPort}${path}`, {
             customWebSocket: detectWebSocket(),
-            autoStart
+            autoStart,
+            debug
         });
     }
 

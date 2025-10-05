@@ -48,9 +48,17 @@ export class ControllerClient {
     }
 }
 
-function detectWebSocket(): typeof WebSocket {
-    if (typeof WebSocket !== "undefined") {
+function detectWebSocket() {
+    // Node.js >=22.4 provides a built-in WebSocket implementation
+    // that is not compatible with VCMP yet. Force using NodeWebSocket
+    // when running on Node.js.
+    const isNode = Boolean(typeof module !== 'undefined' && module.exports);
+
+    if (isNode) {
+        return NodeWebSocket;
+    }
+    else if (typeof WebSocket !== "undefined") {
         return WebSocket;
     }
-    return NodeWebSocket as typeof WebSocket;
+    throw new Error("WebSocket is not defined");
 }

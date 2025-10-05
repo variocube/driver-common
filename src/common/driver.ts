@@ -10,6 +10,7 @@ export enum DriverType {
     BarcodeReader = "barcode-reader",
     Kiosk = "kiosk",
     DoorBell = "door-bell",
+    PowerManagement = "power-management",
 }
 
 export class Driver extends ControllerClient {

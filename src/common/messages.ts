@@ -40,6 +40,9 @@ export enum DeviceType {
 
     /** DoorBell */
     DoorBell = "DoorBell",
+
+    /** Power management */
+    PowerManagement = "PowerManagement",
 }
 
 export interface Device {

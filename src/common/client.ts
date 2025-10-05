@@ -52,13 +52,19 @@ function detectWebSocket() {
     // Node.js >=22.4 provides a built-in WebSocket implementation
     // that is not compatible with VCMP yet. Force using NodeWebSocket
     // when running on Node.js.
-    const isNode = Boolean(typeof module !== 'undefined' && module.exports);
-
-    if (isNode) {
+    if (isNode()) {
         return NodeWebSocket;
     }
     else if (typeof WebSocket !== "undefined") {
         return WebSocket;
     }
     throw new Error("WebSocket is not defined");
+}
+
+function isNode() {
+    if (typeof module !== 'undefined' && module.exports) {
+        return true;
+    }
+    return (typeof process !== 'undefined') &&
+        (process.release.name.search(/node|io.js/) !== -1);
 }

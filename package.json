@@ -21,7 +21,7 @@
     "ts-node": "^10.5.0"
   },
   "dependencies": {
-    "@variocube/vcmp": "^2.4.3",
+    "@variocube/vcmp": "^2.4.3 || ^3.0.0",
     "ws": "^8.18.3",
     "chalk": "^4.1.2"
   },

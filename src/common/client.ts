@@ -50,21 +50,22 @@ export class ControllerClient {
 
 function detectWebSocket() {
     // Node.js >=22.4 provides a built-in WebSocket implementation
-    // that is not compatible with VCMP yet. Force using NodeWebSocket
-    // when running on Node.js.
-    if (isNode()) {
-        return NodeWebSocket;
-    }
-    else if (typeof WebSocket !== "undefined") {
+    // that is not compatible with VCMP yet. So we have more exhaustive checks in place.
+    //
+    // If it has a WebSocket, window and document, assume it's a browser environment
+    // and use its WebSocket implementation.
+    if (typeof WebSocket !== "undefined" && typeof window !== "undefined" && typeof window.document !== "undefined") {
         return WebSocket;
     }
-    throw new Error("WebSocket is not defined");
+    // Use NodeWebSocket only if running on Node.js.
+    else if (isNode()) {
+        return NodeWebSocket;
+    }
+    throw new Error("WebSocket implementation could not be detected.");
 }
 
 function isNode() {
-    if (typeof module !== 'undefined' && module.exports) {
-        return true;
-    }
-    return (typeof process !== 'undefined') &&
-        (process.release.name.search(/node|io.js/) !== -1);
+    return typeof process !== "undefined"
+        && process.versions != null
+        && process.versions.node != null;
 }

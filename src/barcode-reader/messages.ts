@@ -5,8 +5,11 @@
  * and send a message when a barcode is successfully scanned.
  */
 
+import {BarcodeReaderConfig} from "./config";
+
 export enum BarcodeReaderMessageTypes {
     BarcodeScanned = "barcode-reader:BarcodeScanned",
+    Configure = "barcode-reader:Configure",
 }
 
 export interface BarcodeScanned {
@@ -19,5 +22,18 @@ export interface BarcodeScanned {
     unit: string;
 }
 
+/**
+ * Sent to a barcode reader driver to (re)configure the reader.
+ *
+ * The config may be partial; the driver overlays it on its default vendor profile.
+ */
+export interface ConfigureBarcodeReader {
+    "@type": BarcodeReaderMessageTypes.Configure;
+
+    /** The standardized barcode reader configuration to apply. */
+    config: BarcodeReaderConfig;
+}
+
 export type BarcodeReaderMessage =
-    BarcodeScanned;
+    BarcodeScanned
+    | ConfigureBarcodeReader;

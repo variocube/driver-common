@@ -5,7 +5,7 @@
  * and send a message when a barcode is successfully scanned.
  */
 
-import {BarcodeReaderConfig} from "./config";
+import type {BarcodeReaderConfig} from "./config";
 
 export enum BarcodeReaderMessageTypes {
     BarcodeScanned = "barcode-reader:BarcodeScanned",

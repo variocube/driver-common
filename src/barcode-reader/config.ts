@@ -42,6 +42,11 @@ export interface ToneConfig {
 
 /**
  * Visual and audible feedback indicators.
+ *
+ * Note: `brightness` and `volume` are standardized to a 0–100 percentage in this
+ * schema. Physical readers may use other scales (e.g. 0–255 or discrete levels);
+ * since this schema is device-agnostic and we do not assume any vendor's units,
+ * the driver is responsible for mapping the percentage onto the device's scale.
  */
 export interface IndicatorConfig {
     /** Scan indicator LED. */
@@ -147,6 +152,11 @@ const VALID_TERMINATORS: ReadonlyArray<OutputTerminator> = ["CR", "LF", "CRLF", 
 const MAX_PREFIX_SUFFIX_LENGTH = 64;
 const MAX_GROUP_SEPARATOR_LENGTH = 16;
 
+/** Sanity ceilings — not vendor limits, just to catch fat-finger / nonsensical values. */
+const MAX_TIMEOUT_MS = 3_600_000; // 1 hour
+const MAX_INTER_CHARACTER_DELAY_MS = 60_000; // 1 minute
+const MAX_FREQUENCY_HZ = 20_000; // upper edge of human hearing
+
 /**
  * Validates a {@link BarcodeReaderConfig} against the v1 schema.
  *
@@ -175,7 +185,7 @@ export function validateBarcodeConfig(config: BarcodeReaderConfig): ValidationRe
         }
     };
 
-    const checkNonNegative = (value: unknown, path: string) => {
+    const checkNonNegative = (value: unknown, path: string, max?: number) => {
         if (value === undefined) {
             return;
         }
@@ -183,6 +193,17 @@ export function validateBarcodeConfig(config: BarcodeReaderConfig): ValidationRe
             errors.push(`${path} must be a number`);
         } else if (value < 0) {
             errors.push(`${path} must be non-negative`);
+        } else if (max !== undefined && value > max) {
+            errors.push(`${path} must be at most ${max}`);
+        }
+    };
+
+    const checkBoolean = (value: unknown, path: string) => {
+        if (value === undefined) {
+            return;
+        }
+        if (typeof value !== "boolean") {
+            errors.push(`${path} must be a boolean`);
         }
     };
 
@@ -212,29 +233,31 @@ export function validateBarcodeConfig(config: BarcodeReaderConfig): ValidationRe
     }
 
     if (indicators !== undefined) {
+        checkBoolean(indicators.led?.enabled, "indicators.led.enabled");
+        checkBoolean(indicators.beeper?.enabled, "indicators.beeper.enabled");
         checkPercent(indicators.led?.brightness, "indicators.led.brightness");
         checkPercent(indicators.beeper?.volume, "indicators.beeper.volume");
         for (const tone of [["successTone", indicators.successTone] as const, ["errorTone", indicators.errorTone] as const]) {
             const [name, value] = tone;
             if (value !== undefined) {
-                checkNonNegative(value.frequencyHz, `indicators.${name}.frequencyHz`);
-                checkNonNegative(value.durationMs, `indicators.${name}.durationMs`);
+                checkNonNegative(value.frequencyHz, `indicators.${name}.frequencyHz`, MAX_FREQUENCY_HZ);
+                checkNonNegative(value.durationMs, `indicators.${name}.durationMs`, MAX_TIMEOUT_MS);
             }
         }
     }
 
     if (triggerTiming !== undefined) {
-        checkNonNegative(triggerTiming.illuminationTimeoutMs, "triggerTiming.illuminationTimeoutMs");
-        checkNonNegative(triggerTiming.idleToSleepMs, "triggerTiming.idleToSleepMs");
-        checkNonNegative(triggerTiming.scanTimeoutMs, "triggerTiming.scanTimeoutMs");
-        checkNonNegative(triggerTiming.duplicateSuppressionMs, "triggerTiming.duplicateSuppressionMs");
+        checkNonNegative(triggerTiming.illuminationTimeoutMs, "triggerTiming.illuminationTimeoutMs", MAX_TIMEOUT_MS);
+        checkNonNegative(triggerTiming.idleToSleepMs, "triggerTiming.idleToSleepMs", MAX_TIMEOUT_MS);
+        checkNonNegative(triggerTiming.scanTimeoutMs, "triggerTiming.scanTimeoutMs", MAX_TIMEOUT_MS);
+        checkNonNegative(triggerTiming.duplicateSuppressionMs, "triggerTiming.duplicateSuppressionMs", MAX_TIMEOUT_MS);
     }
 
     if (outputFormatting !== undefined) {
         checkString(outputFormatting.prefix, "outputFormatting.prefix", MAX_PREFIX_SUFFIX_LENGTH);
         checkString(outputFormatting.suffix, "outputFormatting.suffix", MAX_PREFIX_SUFFIX_LENGTH);
         checkString(outputFormatting.groupSeparator, "outputFormatting.groupSeparator", MAX_GROUP_SEPARATOR_LENGTH);
-        checkNonNegative(outputFormatting.interCharacterDelayMs, "outputFormatting.interCharacterDelayMs");
+        checkNonNegative(outputFormatting.interCharacterDelayMs, "outputFormatting.interCharacterDelayMs", MAX_INTER_CHARACTER_DELAY_MS);
         if (
             outputFormatting.terminator !== undefined
             && !VALID_TERMINATORS.includes(outputFormatting.terminator)

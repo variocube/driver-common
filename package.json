@@ -5,7 +5,8 @@
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
   "scripts": {
-    "build": "tsc && tsc -m esnext --outDir ./esm -d"
+    "build": "tsc && tsc -m esnext --outDir ./esm -d",
+    "test": "node --test --require ts-node/register \"src/**/*.test.ts\""
   },
   "author": "Variocube",
   "license": "ISC",
@@ -27,7 +28,8 @@
   "files": [
     "cjs/**/*",
     "esm/**/*",
-    "src/**/*"
+    "src/**/*",
+    "!src/**/*.test.ts"
   ],
   "publishConfig": {
     "access": "public"

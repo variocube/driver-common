@@ -4,9 +4,24 @@
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./esm/index.d.ts",
+      "import": "./esm/index.js",
+      "require": "./cjs/index.js"
+    },
+    "./barcode-reader/config": {
+      "types": "./esm/barcode-reader/config.d.ts",
+      "import": "./esm/barcode-reader/config.js",
+      "require": "./cjs/barcode-reader/config.js"
+    },
+    "./package.json": "./package.json",
+    "./*": "./*"
+  },
   "scripts": {
     "build": "tsc && tsc -m esnext --outDir ./esm -d",
-    "local-build": "npm run build && npm pack variocube-driver-common-2.0.6.tgz"
+    "test": "node --test --require ts-node/register \"src/**/*.test.ts\""
   },
   "author": "Variocube",
   "license": "ISC",
@@ -28,7 +43,8 @@
   "files": [
     "cjs/**/*",
     "esm/**/*",
-    "src/**/*"
+    "src/**/*",
+    "!src/**/*.test.ts"
   ],
   "publishConfig": {
     "access": "public"

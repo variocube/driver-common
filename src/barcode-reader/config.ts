@@ -96,17 +96,33 @@ export interface TriggerTimingConfig {
 
 /**
  * Line terminator appended after the decoded data (and suffix).
+ *
+ * Consumed by the driver as the scan FRAMING delimiter: it marks end-of-scan,
+ * is stripped, and is never forwarded to the app. It is therefore a small, closed
+ * set on purpose — the read path must recognise and strip this exact sequence, so
+ * every added value is a new framing case. The decoded payload (and any prefix/
+ * suffix) MUST NOT contain the active terminator, or the scan frames early.
+ *
+ * "none" disables the in-band terminator; the driver then frames by idle-timeout
+ * (flush on serial silence). This is the supported path for arbitrary BINARY
+ * payloads, where no in-band delimiter is safe. See variocube/drivers#16.
  */
 export type OutputTerminator = "CR" | "LF" | "CRLF" | "none";
 
 /**
  * Output formatting applied to the decoded barcode data before it is emitted.
+ *
+ * prefix and suffix are content decoration: the reader adds them and the driver
+ * passes them THROUGH to the app unchanged (they are not stripped — stripping
+ * them would make configuring them pointless). Only the terminator is consumed by
+ * the driver (see OutputTerminator). Because the terminator is the frame delimiter,
+ * prefix and suffix must not contain the active terminator sequence.
  */
 export interface OutputFormattingConfig {
-    /** String prepended to the decoded data. Max 64 characters. */
+    /** String prepended to the decoded data and forwarded to the app. Max 64 chars. Must not contain the terminator sequence. */
     prefix?: string;
 
-    /** String appended to the decoded data (before the terminator). Max 64 characters. */
+    /** String appended to the decoded data (before the terminator) and forwarded to the app. Max 64 chars. Must not contain the terminator sequence. */
     suffix?: string;
 
     /** Line terminator appended after the data. */
@@ -151,6 +167,13 @@ export interface ValidationResult {
 const VALID_TERMINATORS: ReadonlyArray<OutputTerminator> = ["CR", "LF", "CRLF", "none"];
 const MAX_PREFIX_SUFFIX_LENGTH = 64;
 const MAX_GROUP_SEPARATOR_LENGTH = 16;
+
+/** Byte sequences each terminator maps to on the wire. `none` has no in-band bytes. */
+const TERMINATOR_BYTES: Record<Exclude<OutputTerminator, "none">, string> = {
+    CR: "\r",
+    LF: "\n",
+    CRLF: "\r\n",
+};
 
 /** Sanity ceilings — not vendor limits, just to catch fat-finger / nonsensical values. */
 const MAX_TIMEOUT_MS = 3_600_000; // 1 hour
@@ -258,11 +281,18 @@ export function validateBarcodeConfig(config: BarcodeReaderConfig): ValidationRe
         checkString(outputFormatting.suffix, "outputFormatting.suffix", MAX_PREFIX_SUFFIX_LENGTH);
         checkString(outputFormatting.groupSeparator, "outputFormatting.groupSeparator", MAX_GROUP_SEPARATOR_LENGTH);
         checkNonNegative(outputFormatting.interCharacterDelayMs, "outputFormatting.interCharacterDelayMs", MAX_INTER_CHARACTER_DELAY_MS);
-        if (
-            outputFormatting.terminator !== undefined
-            && !VALID_TERMINATORS.includes(outputFormatting.terminator)
-        ) {
+        const {terminator, prefix, suffix} = outputFormatting;
+        if (terminator !== undefined && !VALID_TERMINATORS.includes(terminator)) {
             errors.push(`outputFormatting.terminator must be one of ${VALID_TERMINATORS.join(", ")}`);
+        } else if (terminator !== undefined && terminator !== "none") {
+            // The terminator is the frame delimiter; if prefix/suffix carry it, the scan frames early.
+            const bytes = TERMINATOR_BYTES[terminator];
+            if (typeof prefix === "string" && prefix.includes(bytes)) {
+                errors.push(`outputFormatting.prefix must not contain the ${terminator} terminator sequence`);
+            }
+            if (typeof suffix === "string" && suffix.includes(bytes)) {
+                errors.push(`outputFormatting.suffix must not contain the ${terminator} terminator sequence`);
+            }
         }
     }
 

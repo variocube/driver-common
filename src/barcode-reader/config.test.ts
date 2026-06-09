@@ -94,6 +94,13 @@ const cases: Case[] = [
     {name: "suffix too long", config: {outputFormatting: {suffix: "x".repeat(65)}}, valid: false},
     {name: "groupSeparator too long", config: {outputFormatting: {groupSeparator: "x".repeat(17)}}, valid: false},
     {name: "interCharacterDelay above ceiling", config: {outputFormatting: {interCharacterDelayMs: 60_001}}, valid: false},
+
+    // Prefix/suffix must not contain the active terminator sequence (frames early)
+    {name: "prefix contains LF terminator", config: {outputFormatting: {terminator: "LF", prefix: "a\nb"}}, valid: false},
+    {name: "suffix contains CR terminator", config: {outputFormatting: {terminator: "CR", suffix: "x\r"}}, valid: false},
+    {name: "prefix contains CRLF terminator", config: {outputFormatting: {terminator: "CRLF", prefix: "a\r\nb"}}, valid: false},
+    {name: "prefix with LF but terminator none", config: {outputFormatting: {terminator: "none", prefix: "a\nb"}}, valid: true},
+    {name: "prefix with LF but terminator CR (different byte)", config: {outputFormatting: {terminator: "CR", prefix: "a\nb"}}, valid: true},
 ];
 
 for (const c of cases) {

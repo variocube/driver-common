@@ -104,6 +104,12 @@ export interface OpenLock {
 
     /** The id of the lock to open. */
     id: string;
+
+    /**
+     * Duration in milliseconds the lock should be held open. Only honored by drivers that support a configurable
+     * unlock time (currently kerong); ignored otherwise.
+     */
+    unlockTime?: number;
 }
 
 export type LockMessage =

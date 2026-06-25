@@ -20,7 +20,8 @@
     "./*": "./*"
   },
   "scripts": {
-    "build": "tsc && tsc -m esnext --outDir ./esm -d",
+    "build": "tsc && tsc -m esnext --outDir ./esm -d && tsc-alias -f -p tsconfig.json --outDir esm && npm run postbuild",
+    "postbuild": "node post-build.js",
     "test": "node --test --require ts-node/register \"src/**/*.test.ts\""
   },
   "author": "Variocube",
@@ -32,13 +33,14 @@
   "devDependencies": {
     "@types/node": "^18.18.13",
     "@types/ws": "^8.5.10",
-    "typescript": "^4.5.5",
-    "ts-node": "^10.5.0"
+    "ts-node": "^10.5.0",
+    "tsc-alias": "^1.8.17",
+    "typescript": "^4.5.5"
   },
   "dependencies": {
     "@variocube/vcmp": "^2.4.3 || ^3.0.0",
-    "ws": "^8.21.0",
-    "chalk": "^4.1.2"
+    "chalk": "^4.1.2",
+    "ws": "^8.21.0"
   },
   "files": [
     "cjs/**/*",

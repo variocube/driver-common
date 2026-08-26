@@ -34,7 +34,7 @@ export class Throttle {
             }
             else {
                 this.running = true;
-                setTimeout(resolve, this.recoveryMs - (Date.now() - this.last));
+                setTimeout(resolve, Math.max(0, this.recoveryMs - (Date.now() - this.last)));
             }
         })
     }

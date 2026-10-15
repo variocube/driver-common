@@ -13,6 +13,13 @@ export enum DriverType {
     PowerManagement = "power-management",
 }
 
+/**
+ * Base class of all drivers.
+ *
+ * The `send*` methods resolve once the controller acknowledged the message. They reject with a `VcmpError`
+ * when the controller refuses it (NAK) or the controller connection is gone (status 503). Callers must handle
+ * the rejection: an unhandled rejection ends a Node.js process.
+ */
 export class Driver extends ControllerClient {
 
     onRestartDevice?: VcmpHandler<RestartDevice>;
@@ -20,7 +27,10 @@ export class Driver extends ControllerClient {
     constructor(type: DriverType, options?: ClientOptions) {
         super(`/drivers/${type}`, options);
 
-        this.client.on<RestartDevice>(DeviceMessageTypes.RestartDevice, (rd, session) => this.onRestartDevice && this.onRestartDevice(rd, session));
+        // Discard the callback's result: VCMP would send it to the controller as the ACK payload.
+        this.client.on<RestartDevice>(DeviceMessageTypes.RestartDevice, async (rd, session) => {
+            await this.onRestartDevice?.(rd, session);
+        });
     }
 
     /**

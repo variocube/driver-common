@@ -7,7 +7,10 @@ export class KioskDriver extends Driver {
 
     constructor(options?: ClientOptions) {
         super(DriverType.Kiosk, options);
-        this.client.on<TakeScreenshot>(KioskMessageTypes.TakeScreenshot, (m) => this.onTakeScreenshot && this.onTakeScreenshot(m));
+        // Discard the callback's result: VCMP would send it to the controller as the ACK payload.
+        this.client.on<TakeScreenshot>(KioskMessageTypes.TakeScreenshot, async (m) => {
+            await this.onTakeScreenshot?.(m);
+        });
     }
 
     async sendScreenshot(dataUri: string, kioskId: string) {

@@ -5,6 +5,15 @@
  * only specific message flows are permitted. If the payment terminal encounters
  * a message that is not applicable to the current state of a payment, it should
  * not accept it and throw an error instead (respond with a NAK on VCMP level).
+ *
+ * A payment may carry a `paymentId` (a UUID string chosen by the sender of `InitiatePayment`). With a
+ * `paymentId`, the driver acknowledges `InitiatePayment` once it accepted the payment and reports the outcome
+ * as a separate message (`PaymentApproved` or `PaymentDenied`); results and commands are matched to the payment
+ * by that id. Without one, the behavior is unchanged. An unknown outcome is reported as `PaymentDenied` with
+ * `outcomeUnknown` set.
+ *
+ * All `paymentId` and `outcomeUnknown` fields are optional: senders omit an absent field rather than sending
+ * `null`, and receivers ignore fields they do not know.
  */
 
 /** Enum of payment terminal message types */
@@ -32,6 +41,9 @@ export interface InitiatePayment {
 
     /** The language for messages from the terminal */
     language: string;
+
+    /** Identifies the payment this message belongs to (UUID); absent for payments without an id */
+    paymentId?: string;
 }
 
 /**
@@ -43,6 +55,9 @@ export interface DisplayRequest {
 
     /** The message to display (array of lines) */
     message: string[];
+
+    /** Identifies the payment this message belongs to (UUID); absent for payments without an id */
+    paymentId?: string;
 }
 
 /**
@@ -53,6 +68,15 @@ export interface PaymentDenied {
 
     /** The reason why the payment was denied */
     reason: string;
+
+    /**
+     * When true, the outcome of the payment is unknown: it may have been approved or not, and has to be
+     * reconciled. Absent means the payment was definitely denied.
+     */
+    outcomeUnknown?: boolean;
+
+    /** Identifies the payment this message belongs to (UUID); absent for payments without an id */
+    paymentId?: string;
 }
 
 /**
@@ -75,6 +99,9 @@ export interface PaymentApproved {
      * Transaction Url of the payment
      */
     merchantTransactionUrl?: string;
+
+    /** Identifies the payment this message belongs to (UUID); absent for payments without an id */
+    paymentId?: string;
 }
 
 /**
@@ -82,6 +109,9 @@ export interface PaymentApproved {
  */
 export interface ConfirmPayment {
     "@type": PaymentTerminalMessageTypes.ConfirmPayment;
+
+    /** Identifies the payment this message belongs to (UUID); absent for payments without an id */
+    paymentId?: string;
 }
 
 /**
@@ -89,6 +119,9 @@ export interface ConfirmPayment {
  */
 export interface CancelPayment {
     "@type": PaymentTerminalMessageTypes.CancelPayment;
+
+    /** Identifies the payment this message belongs to (UUID); absent for payments without an id */
+    paymentId?: string;
 }
 
 export type PaymentTerminalMessage =

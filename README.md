@@ -49,6 +49,25 @@ Handlers (`onOpenLock`, `onRestartDevice`, …) acknowledge a message by returni
 error is sent to the controller as the NAK's problem detail. Return nothing: the controller expects no
 acknowledgement payload, and `onRestartDevice` and `onTakeScreenshot` discard a returned value.
 
+#### Payment terminal
+
+Messages of a payment carry an optional `paymentId` (UUID string); `PaymentDenied` has an optional `outcomeUnknown`
+flag for a payment whose outcome could not be determined. With a `paymentId`, acknowledge `InitiatePayment` once the
+payment is accepted and report the outcome as a separate message. Absent optional fields are omitted on the wire.
+
+```typescript
+const terminal = new PaymentTerminalDriver();
+
+// Positional forms keep working and send no paymentId
+await terminal.sendPaymentApproved("Receipt text");
+await terminal.sendPaymentDenied("Card declined");
+
+// Object forms carry the new fields
+await terminal.sendDisplayRequest({message: ["Insert card"], paymentId});
+await terminal.sendPaymentApproved({receiptText: "Receipt text", paymentId});
+await terminal.sendPaymentDenied({reason: "Terminal connection lost", paymentId, outcomeUnknown: true});
+```
+
 ## Migrating from 2.x to 3.0.0
 
 3.0.0 requires `@variocube/vcmp` 4.2 or later. It abandons a connection whose heartbeat stops (after twice the
